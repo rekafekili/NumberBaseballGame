@@ -8,7 +8,6 @@ import java.net.*;
  * 
  */
 public class ServerUDP {
-	private InetAddress serverIp;	// 대상 서버 IP
 	private DatagramSocket socket;
 	
 	public ServerUDP(int port){
