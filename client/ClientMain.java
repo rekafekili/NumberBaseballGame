@@ -5,7 +5,7 @@ import java.util.Scanner;
 /*
  *  UDP 통신을 이용한 숫자야구게임
  *  클라이언트 메인 : UDP 송수신을 담당하는 객체를 계속 인스턴스하여 서버와 게임을 진행
- *  
+ *  ddd
  */
 public class ClientMain {
 	
