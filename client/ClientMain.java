@@ -24,7 +24,11 @@ public class ClientMain {
 			while (true) {
 				receivedMessage = client.receiveMessage().trim();
 				System.out.println("SERVER >> " + receivedMessage);
-
+				
+				if(receivedMessage.equals("GOAL!")){
+					break;
+				}
+				
 				System.out.print(username + " : ");
 				String message = sc.next() + "";
 				client.sendMessage(message);

@@ -44,6 +44,8 @@ public class ServerMain {
 				}
 				
 				socket.sendMessage(sendMessage, clientIp, clientPort);
+				
+				if(sendMessage.equals("GOAL!")) break;
 			} catch (IOException e) {
 				break;
 			}
