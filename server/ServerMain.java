@@ -35,12 +35,6 @@ public class ServerMain {
 					sendMessage = "--- Welcome! Please Enter the number between 100 and 1000 ---";
 					System.out.println("--- [" + userName + "] is Entered ---");
 				}
-				else if(receivedMessage.equals("STOP")) {
-					sendMessage = "STOP";
-				}
-				else if(receivedMessage.equals("EXIT")) {
-					break;
-				}
 				else if(100 < Integer.parseInt(receivedMessage) && Integer.parseInt(receivedMessage) < 1000) {
 					System.out.println("Received Number : " + receivedMessage);
 					sendMessage = calcNumberBaseball(receivedMessage);
@@ -101,3 +95,11 @@ public class ServerMain {
 		return strike + "Strike " + ball + "Ball";
 	}
 }
+
+
+//else if(receivedMessage.equals("STOP")) {
+//	sendMessage = "STOP";
+//}
+//else if(receivedMessage.equals("EXIT")) {
+//	break;
+//}
