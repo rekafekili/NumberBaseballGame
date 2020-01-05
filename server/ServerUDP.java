@@ -4,9 +4,6 @@ package server;
 import java.io.IOException;
 import java.net.*;
 
-/*
- * 
- */
 public class ServerUDP {
 	private DatagramSocket socket;
 	
@@ -39,3 +36,5 @@ public class ServerUDP {
 		System.out.println("--- Server Socket Closed ---");
 	}
 }
+
+

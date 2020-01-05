@@ -3,15 +3,6 @@ package server;
 import java.io.IOException;
 import java.net.*;
 
-/*
- *  숫자야구게임 서버
- *  
- *  클라이언트의 메시지에 대응
- *  랜덤으로 세자리 숫자 생성
- *  숫자야구게임의 연산 구현
- *  
- */
-
 public class ServerMain {
 	private static int[] goal;
 	
