@@ -24,21 +24,22 @@ public class ClientMain {
 				if(receivedMessage.equals("GOAL!")){
 					break;
 				}
-				
-				System.out.print(username + " : ");
-				String message = sc.next() + "";
-				client.sendMessage(message);
+				else if(receivedMessage.equals("STOP")) {
+					client.sendMessage("EXIT");
+					break;
+				}
+				else {
+					System.out.print(username + " : ");
+					String message = sc.next() + "";
+					client.sendMessage(message);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 
 		client.closeUDP();
 		System.exit(0);
 	}
 }
 
-//if(receivedMessage.equals("STOP")) {
-//	client.sendMessage("EXIT");
-//	break;
-//}

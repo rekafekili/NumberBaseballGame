@@ -5,6 +5,7 @@ import java.net.*;
 
 public class ServerMain {
 	private static int[] goal;
+	private static int hintLimit = 1;
 	
 	public static void main(String[] args) {
 		ServerUDP socket = new ServerUDP(3000);
@@ -25,6 +26,20 @@ public class ServerMain {
 					userName = receivedMessage.substring(1);
 					sendMessage = "--- Welcome! Please Enter the number between 100 and 1000 ---";
 					System.out.println("--- [" + userName + "] is Entered ---");
+				}
+				else if(receivedMessage.equals("STOP")) {
+					sendMessage = "STOP";
+				}
+				else if(receivedMessage.equals("EXIT")) {
+					break;
+				}
+				else if(receivedMessage.equals("HINT")) {
+					if(hintLimit >= 1) {
+						sendMessage = makeHintMessage();
+					}
+					else {
+						sendMessage = "Sorry, Hint is Only Once!";
+					}	
 				}
 				else if(100 < Integer.parseInt(receivedMessage) && Integer.parseInt(receivedMessage) < 1000) {
 					System.out.println("Received Number : " + receivedMessage);
@@ -87,12 +102,22 @@ public class ServerMain {
 		else if(strike == 3 && ball ==0) return "GOAL!";
 		return strike + "Strike " + ball + "Ball";
 	}
+	
+	private static String makeHintMessage() {
+		int index = (int)(Math.random()*3);	// 0~2 Áß ·£´ı °ª
+		String hintMessage = "";
+		for(int i=0; i<3; i++) {
+			if(i==index) {
+				hintMessage += Integer.toString(goal[index]);
+			}
+			else {
+				hintMessage += "*";
+			}
+		}
+		hintLimit--;
+		return hintMessage;
+	}
 }
 
 
-//else if(receivedMessage.equals("STOP")) {
-//	sendMessage = "STOP";
-//}
-//else if(receivedMessage.equals("EXIT")) {
-//	break;
-//}
+
