@@ -7,20 +7,21 @@ public class ServerMain {
 	private static int[] goal;
 	private static int hintLimit = 1;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		ServerUDP socket = new ServerUDP(3000);
 		String userName = "Anonymous";
 		goal = createGoal();
-		
+		InetAddress clientIp = null;
+		int clientPort = 0;
+		String sendMessage = null;
 		while(true) {
 			try {
 				DatagramPacket dp = socket.receiveMessage();
 				
 				String receivedMessage = new String(dp.getData()).trim();
 				System.out.println("Received Log : " + receivedMessage);
-				InetAddress clientIp = dp.getAddress();
-				int clientPort = dp.getPort();
-				String sendMessage;
+				clientIp = dp.getAddress();
+				clientPort = dp.getPort();
 				
 				if(receivedMessage.substring(0,1).equals("!")) {
 					userName = receivedMessage.substring(1);
@@ -54,6 +55,9 @@ public class ServerMain {
 				if(sendMessage.equals("GOAL!")) break;
 			} catch (IOException e) {
 				break;
+			} catch (NumberFormatException nfe) {
+				sendMessage = "Please, Retry.\n Goal is between 100 and 1000";
+				socket.sendMessage(sendMessage, clientIp, clientPort);
 			}
 		}
 		
