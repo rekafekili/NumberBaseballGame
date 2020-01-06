@@ -9,7 +9,7 @@ public class ServerMain {
 	
 	public static void main(String[] args) throws IOException {
 		ServerUDP socket = new ServerUDP(3000);
-		String userName = "Anonymous";
+		String userName = null;
 		goal = createGoal();
 		InetAddress clientIp = null;
 		int clientPort = 0;
@@ -23,8 +23,8 @@ public class ServerMain {
 				clientIp = dp.getAddress();
 				clientPort = dp.getPort();
 				
-				if(receivedMessage.substring(0,1).equals("!")) {
-					userName = receivedMessage.substring(1);
+				if(userName==null) { // 이미 접속한 적이 없는 경우 : userName 저장
+					userName = receivedMessage;
 					sendMessage = "--- Welcome! Please Enter the number between 100 and 1000 ---";
 					System.out.println("--- [" + userName + "] is Entered ---");
 				}
