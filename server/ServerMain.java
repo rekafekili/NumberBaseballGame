@@ -15,9 +15,17 @@ public class ServerMain {
 		
 		ServerGame gameOperator = new ServerGame();
 		
+		Timer alertTime = new Timer();
+		AlertTime alertTimeTask = new AlertTime();
+		
+		
+		
 		while(true) {
 			try {
+				alertTime.scheduleAtFixedRate(alertTimeTask, 10000, 10000);
 				DatagramPacket dp = socket.receiveMessage();
+				alertTime.cancel();
+				
 				String receivedMessage = new String(dp.getData()).trim();
 				System.out.println("Received Log : " + receivedMessage);
 				clientIp = dp.getAddress();
