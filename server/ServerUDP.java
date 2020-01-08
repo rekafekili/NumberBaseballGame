@@ -6,6 +6,8 @@ import java.net.*;
 
 public class ServerUDP {
 	private DatagramSocket socket;
+	private InetAddress clientIp;
+	private int clientPort;
 	
 	public ServerUDP(int port){
 		try {
@@ -17,9 +19,14 @@ public class ServerUDP {
 		}
 	}
 	
-	public void sendMessage(String message, InetAddress ip, int port) throws IOException{
+	public void setIpPort(InetAddress ip, int port) {
+		this.clientIp = ip;
+		this.clientPort = port;
+	}
+	
+	public void sendMessage(String message) throws IOException{
 		byte buffer[] = message.getBytes();
-		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, ip, port);
+		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, clientIp, clientPort);
 		socket.send(dp);
 	}
 	

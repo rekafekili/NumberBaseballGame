@@ -1,8 +1,48 @@
 package server;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ServerGame {
 	private int[] goal;
 	private int hintLimit = 1;
+	private int warning = 3;
+	
+	private Timer alertTimer;
+	private TimerTask alertTask;
+	
+	public ServerGame(ServerUDP udp){
+		// 10초마다 줄 경고 기능 구현
+		alertTimer = new Timer();
+		alertTask = new TimerTask() {
+			@Override
+			public void run() {
+				String msg = "";
+				try {
+					if(warning > 0) {
+						msg = "!!! Warning[" + (warning--) + "] !!!";
+					}
+					else {
+						msg = "STOP";
+					}
+					udp.sendMessage(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+	}
+	
+	// 경고 기능 시작 메소드
+	public void startTimer() {
+		alertTimer.scheduleAtFixedRate(alertTask, 10000, 10000);	// 10초 이후로 10초 마다
+	}
+	
+	// 경고 기능 종료 메소드
+	public void cancelTimer() {
+		alertTimer.cancel();
+	}
 	
 	public void createGoal() {
 		int[] arr = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
