@@ -26,7 +26,7 @@ public class ServerGame {
 					else {
 						msg = "STOP";
 					}
-					udp.sendMessage(msg);
+					udp.sendMessage(2222, msg);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

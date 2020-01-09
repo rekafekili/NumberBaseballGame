@@ -30,6 +30,12 @@ public class ServerUDP {
 		socket.send(dp);
 	}
 	
+	public void sendMessage(int port, String message) throws IOException{
+		byte buffer[] = message.getBytes();
+		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, clientIp, port);
+		socket.send(dp);
+	}
+	
 	public DatagramPacket receiveMessage() throws IOException {
 		byte buffer[] = new byte[512];
 		DatagramPacket dp = new DatagramPacket(buffer, buffer.length);

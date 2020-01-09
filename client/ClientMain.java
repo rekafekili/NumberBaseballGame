@@ -14,6 +14,9 @@ public class ClientMain {
 
 		System.out.print("Enter your name : ");
 		String username = sc.next();
+		
+		ClientReceiveThread receiveThread = new ClientReceiveThread(2222);
+		receiveThread.start();
 
 		try {
 			client.sendMessage(username);
@@ -42,4 +45,3 @@ public class ClientMain {
 		System.exit(0);
 	}
 }
-
