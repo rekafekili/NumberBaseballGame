@@ -2,14 +2,19 @@ package server;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerMain {
+	private static int warningCount = 0;
 	public static void main(String[] args) throws IOException {
 		ServerUDP socket = new ServerUDP(3000);
 		String userName = null;
 		String sendMessage = null;
 		
-		ServerGame gameOperator = new ServerGame(socket);
+		ServerGame gameOperator = new ServerGame();
+		
+		Timer alertTimer = null;
 		
 		while(true) {
 			try {
@@ -26,7 +31,7 @@ public class ServerMain {
 					gameOperator.createGoal();	// 문제 생성
 				}
 				else {
-					gameOperator.cancelTimer();
+					alertTimer.cancel();
 					
 					if(receivedMessage.equals("STOP")) {
 						sendMessage = "STOP";
@@ -44,11 +49,27 @@ public class ServerMain {
 					else {
 						sendMessage = "Please, Retry.\n Goal is between 100 and 1000";
 					}
+					
+					if(warningCount > 0 && warningCount < 3) {
+						sendMessage += (" [Warning" + warningCount + "]"); 
+					}
+					else if(warningCount >= 3) {
+						sendMessage = "STOP";
+					}
 				}
 				socket.sendMessage(sendMessage);
 				
+				alertTimer = new Timer();
+				TimerTask alertTask = new TimerTask() {
+					@Override
+					public void run() {
+						warningCount++;
+					}
+				};
+				
+				alertTimer.scheduleAtFixedRate(alertTask, 10000, 10000);
+				
 				if(sendMessage.equals("GOAL!")) break;
-				else gameOperator.startTimer();
 			} catch (IOException e) {
 				break;
 			} catch (NumberFormatException nfe) {
@@ -59,6 +80,4 @@ public class ServerMain {
 		socket.closeUDP();
 		System.exit(0);
 	}
-	
-
 }
